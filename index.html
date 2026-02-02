@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Công cụ tính bảo hiểm xã hội một lần - Tính toán mức hưởng BHXH 1 lần theo quy định">
+  <title>Hệ Thống Tính Bảo Hiểm Xã Hội 1 Lần</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏛️%3C/text%3E%3C/svg%3E">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header neu-raised">
+      <div class="header-controls">
+        <button class="theme-toggle" id="themeToggle" title="Chuyển đổi sáng/tối">
+          🌙
+        </button>
+        <a href="https://chumvn.github.io/chumbhxh/" target="_blank" class="github-link" title="GitHub">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+        </a>
+      </div>
+      <h1>HỆ THỐNG TÍNH BẢO HIỂM XÃ HỘI 1 LẦN</h1>
+      <p>Tính toán mức hưởng BHXH một lần theo quy định hiện hành</p>
+    </header>
+
+    <!-- Main Card -->
+    <main class="main-card neu-raised">
+      <!-- Tabs -->
+      <div class="tabs-container">
+        <button class="tab-btn" data-tab="compulsory">BHXH Bắt buộc</button>
+        <button class="tab-btn" data-tab="voluntary">BHXH Tự nguyện</button>
+        <button class="tab-btn active" data-tab="both">Cả BHXH bắt buộc & Tự nguyện</button>
+      </div>
+
+      <!-- Configuration -->
+      <div class="config-section neu-inset">
+        <div class="config-item">
+          <label for="slipFactorYear">Năm áp dụng hệ số trượt giá:</label>
+          <select id="slipFactorYear" class="form-select" style="width: auto; min-width: 120px;">
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+          </select>
+        </div>
+        <button class="btn btn-secondary" id="viewSlipFactorBtn">
+          📊 Xem bảng hệ số trượt giá
+        </button>
+      </div>
+
+      <!-- Periods Container -->
+      <div id="periodsContainer"></div>
+
+      <!-- Add Period Buttons -->
+      <div class="actions-container">
+        <button class="btn btn-add" id="addCompulsoryBtn">
+          + THÊM GIAI ĐOẠN BHXH BẮT BUỘC
+        </button>
+        <button class="btn btn-add green" id="addVoluntaryBtn">
+          + THÊM GIAI ĐOẠN BHXH TỰ NGUYỆN
+        </button>
+        <button class="btn btn-add orange" id="addMaternityBtn">
+          + GIAI ĐOẠN THAI SẢN
+        </button>
+      </div>
+
+      <!-- Warning Message -->
+      <div class="warning-message">
+        <p>⚠️ <strong>Lưu ý:</strong> Vui lòng nhập quá trình đóng BHXH theo thứ tự từ khi bắt đầu đóng bảo hiểm đến khi
+          ngừng đóng.</p>
+      </div>
+
+      <!-- Calculate Button -->
+      <div class="calculate-container">
+        <button class="btn btn-primary btn-calculate" id="calculateBtn">
+          🧮 TÍNH BHXH 1 LẦN
+        </button>
+      </div>
+    </main>
+
+    <!-- Results Section -->
+    <section class="results-section" id="resultsSection">
+      <!-- Summary -->
+      <div class="summary-card neu-raised">
+        <h2 class="summary-title">📋 TÓM TẮT KẾT QUẢ</h2>
+        <div id="summaryContent"></div>
+      </div>
+
+      <!-- Detail Explanation -->
+      <div class="detail-card neu-raised">
+        <h2 class="detail-title">📝 DIỄN GIẢI CHI TIẾT TỪNG BƯỚC</h2>
+        <div id="detailContent"></div>
+      </div>
+
+      <!-- Data Table -->
+      <div class="table-card neu-raised">
+        <h2 class="detail-title">📊 BẢNG DỮ LIỆU</h2>
+        <div id="tableContent"></div>
+      </div>
+
+      <!-- Export Buttons -->
+      <div class="export-container">
+        <button class="btn btn-secondary btn-export" id="copyBtn">
+          📋 Sao chép
+        </button>
+        <button class="btn btn-secondary btn-export" id="downloadJsonBtn">
+          💾 JSON
+        </button>
+        <button class="btn btn-secondary btn-export" id="downloadPngBtn">
+          🖼️ PNG
+        </button>
+        <button class="btn btn-secondary btn-export" id="downloadPdfBtn">
+          📄 PDF
+        </button>
+        <button class="btn btn-secondary btn-export" id="downloadDocBtn">
+          📝 DOC
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© 2026 - Công cụ tính BHXH 1 lần | Dựa trên quy định Bảo hiểm xã hội Việt Nam</p>
+      <p>Hệ số trượt giá được cập nhật theo Thông tư hướng dẫn của Bộ LĐ-TB&XH</p>
+    </footer>
+  </div>
+
+  <!-- Modal for Slip Factor Table -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal neu-raised">
+      <div class="modal-header">
+        <h3 class="modal-title">📊 Bảng Hệ Số Trượt Giá</h3>
+        <button class="modal-close" id="modalClose">×</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/slipFactor.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
