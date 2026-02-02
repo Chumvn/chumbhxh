@@ -302,12 +302,8 @@ function updatePeriodMonths(id) {
 }
 
 function seedSampleData() {
-  periods = [
-    { id: ++periodCounter, type: 'voluntary', fromMonth: 4, fromYear: 2019, toMonth: 6, toYear: 2019, salary: 1000000, subjectType: 'doi_tuong_khac', countTime: true },
-    { id: ++periodCounter, type: 'compulsory', fromMonth: 4, fromYear: 2024, toMonth: 6, toYear: 2024, salary: 4456000, subjectType: '', countTime: true },
-    { id: ++periodCounter, type: 'compulsory', fromMonth: 7, fromYear: 2024, toMonth: 9, toYear: 2024, salary: 4706000, subjectType: '', countTime: true },
-    { id: ++periodCounter, type: 'compulsory', fromMonth: 10, fromYear: 2024, toMonth: 12, toYear: 2024, salary: 4736000, subjectType: '', countTime: true }
-  ];
+  // Start with empty periods - user will add their own
+  periods = [];
 }
 
 function calculate() {
